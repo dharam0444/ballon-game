@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon Pop Adventure - Fun Learning Game for Kids</title>
+    <meta name="description" content="An engaging educational balloon shooting game for kids to learn alphabets and numbers with fun animations and sounds">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <h1 class="game-title">🎈 Mishita Balloon Pop Adventure 🎈</h1>
+            <div class="score-board">
+                <div class="score-item">
+                    <span class="score-label">Score</span>
+                    <span class="score-value" id="score">0</span>
+                </div>
+                <div class="score-item">
+                <span class="score-label">Lives</span>
+                <span class="score-value" id="lives">❤️❤️❤️❤️❤️</span>
+            </div>
+            <div class="score-item">
+                <span class="score-label">Level</span>
+                <span class="score-value" id="level">1</span>
+            </div>
+            </div>
+        </header>
+
+        <!-- Game Canvas -->
+        <div class="game-area" id="gameArea">
+            <!-- Balloons will be dynamically added here -->
+        </div>
+
+        <!-- Shooter Gun -->
+        <div class="shooter-container">
+            <div class="shooter" id="shooter">
+                <div class="gun-barrel"></div>
+                <div class="gun-body"></div>
+                <div class="gun-handle"></div>
+                <div class="crosshair" id="crosshair"></div>
+            </div>
+            <div class="shoot-indicator" id="shootIndicator">
+                Press <kbd>SPACE</kbd> or <kbd>ENTER</kbd> to shoot!
+            </div>
+        </div>
+
+        <!-- Character Display (shown when balloon pops) -->
+        <div class="character-display" id="characterDisplay">
+            <div class="character-content">
+                <div class="character-text" id="characterText"></div>
+                <div class="character-subtitle" id="characterSubtitle"></div>
+            </div>
+        </div>
+
+        <!-- Game Over Overlay -->
+        <div class="instructions-overlay" id="gameOverOverlay" style="display: none; z-index: 2100;">
+            <div class="instructions-card" style="text-align: center;">
+                <h2 style="font-size: 3rem; margin-bottom: 1rem;">Game Over! 😢</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 2rem;">You ran out of lives!</p>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 1rem; margin-bottom: 2rem;">
+                    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">Final Score</p>
+                    <p class="score-value" id="finalScore" style="font-size: 3rem;">0</p>
+                </div>
+
+                <button class="start-button" id="restartButton">Play Again 🔄</button>
+                <button class="start-button" id="homeButton" style="margin-top: 1rem; background: var(--secondary-gradient);">Home 🏠</button>
+            </div>
+        </div>
+
+        <!-- Instructions Overlay -->
+        <div class="instructions-overlay" id="instructionsOverlay">
+            <div class="instructions-card">
+                <h2>🎯 How to Play</h2>
+                <ul class="instructions-list">
+                    <li>🎈 Colorful balloons will float across the screen</li>
+                    <li>🎯 Aim at the balloons using your mouse</li>
+                    <li>🔫 Press <kbd>SPACE</kbd> or <kbd>ENTER</kbd> to shoot</li>
+                    <li>💥 Pop balloons to reveal letters and numbers</li>
+                    <li>🔊 Listen to the pronunciation of each character</li>
+                    <li>⭐ Score points and level up!</li>
+                </ul>
+                <button class="start-button" id="startButton">Start Playing! 🚀</button>
+                <button class="start-button" id="showLeaderboardBtn" style="margin-top: 1rem; background: var(--secondary-gradient);">🏆 Leaderboard</button>
+            </div>
+        </div>
+
+        <!-- Registration Overlay -->
+        <div class="registration-overlay" id="registrationOverlay">
+            <div class="form-card">
+                <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Welcome Player! 🎮</h2>
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" class="form-input" id="playerName" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Place</label>
+                        <input type="text" class="form-input" id="playerPlace" required placeholder="Where are you from?">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Age</label>
+                        <input type="number" class="form-input" id="playerAge" required min="3" max="99" placeholder="Your age">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <select class="form-select" id="playerGender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Boy">Boy</option>
+                            <option value="Girl">Girl</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="start-button">Let's Play! 🚀</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Leaderboard Overlay -->
+        <div class="leaderboard-overlay" id="leaderboardOverlay">
+            <div class="leaderboard-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>🏆 Top Players</h2>
+                    <button id="closeLeaderboard" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">❌</button>
+                </div>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Place</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sound Toggle -->
+        <button class="sound-toggle" id="soundToggle" title="Toggle Sound">
+            🔊
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
