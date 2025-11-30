@@ -93,6 +93,11 @@ const API = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData)
             });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             return await response.json();
         } catch (error) {
             console.error('Error registering user:', error);
@@ -508,8 +513,14 @@ function gameOver() {
 }
 
 // Handle Registration
+// Handle Registration
 elements.registrationForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
+    const submitBtn = elements.registrationForm.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.textContent = 'Loading...';
+    submitBtn.disabled = true;
     
     const userData = {
         name: document.getElementById('playerName').value,
@@ -519,6 +530,9 @@ elements.registrationForm.addEventListener('submit', async (e) => {
     };
     
     let result = await API.registerUser(userData);
+    
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
     
     // Fallback if API fails
     if (!result) {
@@ -547,7 +561,8 @@ elements.registrationForm.addEventListener('submit', async (e) => {
         elements.instructionsOverlay.classList.remove('hidden');
     } else {
         // This should rarely happen now with the fallback
-        alert('Registration failed. Please try again.');
+        console.error('Registration failed:', result);
+        alert('Registration failed. Please try again. (Debug: ' + (result ? JSON.stringify(result) : 'No result') + ')');
     }
 });
 

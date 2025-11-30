@@ -1,4 +1,4 @@
-const CACHE_NAME = 'balloon-game-v3';
+const CACHE_NAME = 'balloon-game-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
