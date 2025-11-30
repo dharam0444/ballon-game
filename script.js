@@ -527,7 +527,9 @@ elements.registrationForm.addEventListener('submit', async (e) => {
         // Show instructions after registration
         elements.instructionsOverlay.classList.remove('hidden');
     } else {
-        alert('Registration failed: ' + (result && result.error ? result.error : 'Please try again.'));
+        const errorMsg = result && result.error ? result.error : (result ? 'Unknown error' : 'Network or Server Error. Please check connection.');
+        alert('Registration failed: ' + errorMsg);
+        console.error('Registration result:', result);
     }
 });
 
