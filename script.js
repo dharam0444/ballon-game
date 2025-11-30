@@ -84,7 +84,7 @@ let gameState = {
 // ===== API Functions =====
 const API = {
     // Use relative path so it works on any network interface (localhost, IP, etc.)
-    baseUrl: '/api',
+    baseUrl: 'http://localhost:3001/api',
     
     async registerUser(userData) {
         try {
@@ -159,6 +159,7 @@ class AudioSystem {
     }
 
     init() {
+        console.log("esting");
         if (!this.audioContext) {
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
@@ -512,7 +513,7 @@ elements.registrationForm.addEventListener('submit', async (e) => {
     const userData = {
         name: document.getElementById('playerName').value,
         place: document.getElementById('playerPlace').value,
-        age: document.getElementById('playerAge').value,
+        age: Number(document.getElementById('playerAge').value),
         gender: document.getElementById('playerGender').value
     };
     
@@ -679,6 +680,7 @@ elements.gameArea.addEventListener('click', (e) => {
 
 // ===== Initialize =====
 function init() {
+    console.log("testing");
     console.log('🎈 Balloon Pop Adventure - Game Initialized!');
     
     // Check for saved user
