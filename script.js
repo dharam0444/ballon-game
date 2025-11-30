@@ -84,7 +84,7 @@ let gameState = {
 // ===== API Functions =====
 const API = {
     // Use relative path so it works on any network interface (localhost, IP, etc.)
-    baseUrl: 'http://localhost:3001/api',
+    baseUrl: 'localhost:3000/api',
     
     async registerUser(userData) {
         try {
@@ -141,6 +141,7 @@ const elements = {
     restartButton: document.getElementById('restartButton'),
     homeButton: document.getElementById('homeButton'),
     soundToggle: document.getElementById('soundToggle'),
+    exitButton: document.getElementById('exitButton'),
     shootIndicator: document.getElementById('shootIndicator'),
     // New Elements
     registrationOverlay: document.getElementById('registrationOverlay'),
@@ -517,7 +518,24 @@ elements.registrationForm.addEventListener('submit', async (e) => {
         gender: document.getElementById('playerGender').value
     };
     
-    const result = await API.registerUser(userData);
+    let result = await API.registerUser(userData);
+    
+    // Fallback if API fails
+    if (!result) {
+        console.log('API failed, using offline mode');
+        const randomId = Math.floor(Math.random() * 10000);
+        result = {
+            player: {
+                id: randomId,
+                name: userData.name || `Guest_${randomId}`,
+                place: userData.place || 'Unknown',
+                age: userData.age || 5,
+                gender: userData.gender || 'Boy',
+                highScore: 0,
+                isOffline: true
+            }
+        };
+    }
     
     if (result && result.player) {
         gameState.player = result.player;
@@ -528,9 +546,8 @@ elements.registrationForm.addEventListener('submit', async (e) => {
         // Show instructions after registration
         elements.instructionsOverlay.classList.remove('hidden');
     } else {
-        const errorMsg = result && result.error ? result.error : (result ? 'Unknown error' : 'Network or Server Error. Please check connection.');
-        alert('Registration failed: ' + errorMsg);
-        console.error('Registration result:', result);
+        // This should rarely happen now with the fallback
+        alert('Registration failed. Please try again.');
     }
 });
 
@@ -655,6 +672,13 @@ function updateShooterPosition() {
 elements.startButton.addEventListener('click', startGame);
 
 elements.soundToggle.addEventListener('click', toggleSound);
+
+elements.exitButton.addEventListener('click', () => {
+    if (confirm('Are you sure you want to exit?')) {
+        // Clear user session if needed, or just reload to go back to start
+        window.location.reload();
+    }
+});
 
 // Keyboard controls
 document.addEventListener('keydown', (e) => {

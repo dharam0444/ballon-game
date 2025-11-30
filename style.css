@@ -722,10 +722,17 @@ body::before {
 }
 
 /* ===== Sound Toggle ===== */
-.sound-toggle {
+/* ===== Control Buttons ===== */
+.controls-container {
     position: fixed;
     top: var(--spacing-lg);
     right: var(--spacing-lg);
+    display: flex;
+    gap: var(--spacing-sm);
+    z-index: 100;
+}
+
+.control-button {
     width: 60px;
     height: 60px;
     font-size: 1.8rem;
@@ -735,18 +742,18 @@ body::before {
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
-    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
 }
 
-.sound-toggle:hover {
+.control-button:hover {
     transform: scale(1.1);
     box-shadow: var(--shadow-glow);
 }
 
-.sound-toggle.muted {
+.control-button.muted {
     opacity: 0.5;
 }
 
