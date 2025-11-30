@@ -83,7 +83,8 @@ let gameState = {
 
 // ===== API Functions =====
 const API = {
-    baseUrl: 'http://localhost:3000/api',
+    // Use relative path so it works on any network interface (localhost, IP, etc.)
+    baseUrl: '/api',
     
     async registerUser(userData) {
         try {
