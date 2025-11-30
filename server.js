@@ -58,6 +58,7 @@ app.post('/api/user', (req, res) => {
             // Create new user
             const stmt = db.prepare(`INSERT INTO players (name, place, age, gender, high_score) VALUES (?, ?, ?, ?, 0)`);
             stmt.run(name, place, age, gender, function(err) {
+                stmt.finalize();
                 if (err) {
                     return res.status(500).json({ error: err.message });
                 }
@@ -66,7 +67,6 @@ app.post('/api/user', (req, res) => {
                     player: { id: this.lastID, name, place, age, gender, high_score: 0 } 
                 });
             });
-            stmt.finalize();
         }
     });
 });

@@ -525,6 +525,8 @@ elements.registrationForm.addEventListener('submit', async (e) => {
         elements.registrationOverlay.style.display = 'none';
         // Show instructions after registration
         elements.instructionsOverlay.classList.remove('hidden');
+    } else {
+        alert('Registration failed: ' + (result && result.error ? result.error : 'Please try again.'));
     }
 });
 

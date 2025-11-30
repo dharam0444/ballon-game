@@ -1223,3 +1223,28 @@ body::before {
         opacity: 0;
     }
 }
+
+/* ===== Update Toast ===== */
+.update-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-gradient);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-full);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 9999;
+    font-weight: bold;
+    animation: slideUpToast 0.5s ease-out;
+}
+
+@keyframes slideUpToast {
+    from {
+        transform: translate(-50%, 100px);
+    }
+    to {
+        transform: translate(-50%, 0);
+    }
+}

@@ -9,6 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Balloon Pop">
+    <link rel="apple-touch-icon" href="icon.png">
 </head>
 <body>
     <div class="game-container">
@@ -150,5 +156,39 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js').then(registration => {
+                    console.log('SW registered: ', registration);
+
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New update available
+                                const toast = document.createElement('div');
+                                toast.className = 'update-toast';
+                                toast.innerHTML = 'New version available! Updating...';
+                                document.body.appendChild(toast);
+                                
+                                // Force update after a short delay to let user see the message
+                                setTimeout(() => {
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                }, 1500);
+                            }
+                        });
+                    });
+                }).catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+
+            // Reload when the new service worker takes control
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
+            });
+        }
+    </script>
 </body>
 </html>
