@@ -1,0 +1,13 @@
+[build]
+  # The directory where the build command is run
+  base = "."
+  # The directory that contains the deploy-ready HTML files
+  publish = "."
+  # Command to run (we don't need one for static files, but echo prevents default behavior)
+  command = "echo 'Deploying static site'"
+
+# Handle Single Page App routing (if needed, though this is a game)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
