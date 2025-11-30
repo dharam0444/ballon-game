@@ -569,7 +569,7 @@ elements.showLeaderboardBtn.addEventListener('click', async () => {
             <td class="rank-${index + 1}">#${index + 1}</td>
             <td>${p.name}</td>
             <td>${p.place || '-'}</td>
-            <td>${p.high_score}</td>
+            <td>${p.highScore}</td>
         </tr>
     `).join('');
     
