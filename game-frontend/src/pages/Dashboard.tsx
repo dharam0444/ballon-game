@@ -28,7 +28,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
 
   const fetchPlayers = async () => {
     try {
-      const response = await axios.get<Player[]>('/api/players');
+      const response = await axios.get<Player[]>('https://ballon-game-backend-production-cef7.up.railway.app/api/players');
       setPlayers(response.data);
       setLoading(false);
     } catch (err) {
@@ -41,7 +41,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     if (!confirm('Are you sure you want to delete this player?')) return;
     
     try {
-      await axios.delete(`/api/players/${id}`);
+      await axios.delete(`https://ballon-game-backend-production-cef7.up.railway.app/api/players/${id}`);
       setPlayers(players.filter(p => p.id !== id));
     } catch (err) {
       alert('Failed to delete player');

@@ -83,8 +83,8 @@ let gameState = {
 
 // ===== API Functions =====
 const API = {
-    // Use relative path so it works on any network interface (localhost, IP, etc.)
-    baseUrl: 'localhost:3000/api',
+    // Use Railway backend URL for production
+    baseUrl: 'https://ballon-game-backend-production-cef7.up.railway.app/api',
     
     async registerUser(userData) {
         try {
@@ -704,7 +704,6 @@ elements.gameArea.addEventListener('click', (e) => {
 
 // ===== Initialize =====
 function init() {
-    console.log("testing");
     console.log('🎈 Balloon Pop Adventure - Game Initialized!');
     
     // Check for saved user
