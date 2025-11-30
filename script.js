@@ -379,21 +379,15 @@ class Balloon {
         
         elements.characterDisplay.classList.add('show');
         
-        // Speak the content and color
+        // Speak only the content shown on screen
         setTimeout(() => {
-            // First speak the content
             audioSystem.speakCharacter(this.contentData.text, this.contentData.lang);
-            
-            // Then speak the balloon color after a short delay
-            setTimeout(() => {
-                audioSystem.speakCharacter(`${this.colorData.name} balloon`, 'en-US');
-            }, 1500);
         }, 200);
         
-        // Hide after 3.5 seconds (increased to accommodate color speech)
+        // Hide after 2 seconds
         setTimeout(() => {
             elements.characterDisplay.classList.remove('show');
-        }, 3500);
+        }, 2000);
     }
 
     updateScore() {
